@@ -7,6 +7,6 @@ import javax.ws.rs.core.Application;
  * Created by Erik on 21-9-2016.
  */
 @ApplicationPath("/api")
-public class CursusAdminService extends Application {
+public class CourseAdminService extends Application {
 
 }

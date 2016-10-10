@@ -1,8 +1,7 @@
-package repositories;
+package data.repositories;
 
-import data.Cursus;
+import data.domain.Cursus;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**

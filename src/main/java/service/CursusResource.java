@@ -1,8 +1,8 @@
 package service;
 
-import data.Cursus;
-import repositories.CursusRepository;
-import repositories.DatabaseConnection;
+import data.domain.Cursus;
+import data.repositories.CursusRepository;
+import data.repositories.DatabaseConnection;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;

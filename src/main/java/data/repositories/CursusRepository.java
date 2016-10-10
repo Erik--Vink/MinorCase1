@@ -1,6 +1,6 @@
-package repositories;
+package data.repositories;
 
-import data.Cursus;
+import data.domain.Cursus;
 
 import java.sql.Connection;
 import java.util.ArrayList;

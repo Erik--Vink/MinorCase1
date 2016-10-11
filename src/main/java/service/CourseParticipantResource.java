@@ -30,27 +30,4 @@ public class CourseParticipantResource {
         return this.courseParticipantController.getAllCourseParticipants();
     }
 
-//    @GET @Path("/{id}") @Produces(MediaType.APPLICATION_JSON)
-//    public Course getOne(@PathParam("id") int id){
-//        return this.courseController.getCourseById(id);
-//    }
-//
-//    @POST
-//    @Consumes("text/plain")
-//    public Response create(String file){
-//
-//        try {
-//            ArrayList<Course> courses = CourseReader.stringToCourses(file);
-//            for(Course c : courses){
-//                courseController.createCourse(c);
-//            }
-//        } catch (InvalidPropertiesFormatException e) {
-//            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.APPLICATION_JSON).build();
-//        }
-//
-//        UriBuilder builder = UriBuilder.fromUri(uriInfo.getAbsolutePath());
-////        builder.path(Integer.toString(id));
-//        return Response.created(builder.build()).build();
-//    }
-
 }

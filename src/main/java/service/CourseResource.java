@@ -33,7 +33,18 @@ public class CourseResource {
     }
 
     @POST
-    @Consumes("text/plain")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Course course){
+
+        int id = courseController.createCourse(course);
+
+        UriBuilder builder = UriBuilder.fromUri(uriInfo.getAbsolutePath());
+        builder.path(Integer.toString(id));
+        return Response.created(builder.build()).build();
+    }
+
+    @POST
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response create(String file){
 
         try {
@@ -47,7 +58,7 @@ public class CourseResource {
                 }
             }
         } catch (InvalidPropertiesFormatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).type("text/plain").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
 
         UriBuilder builder = UriBuilder.fromUri(uriInfo.getAbsolutePath());

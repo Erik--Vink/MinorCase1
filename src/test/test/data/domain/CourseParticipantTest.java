@@ -2,7 +2,9 @@ package data.domain;
 
 import data.controllers.SubscriptionController;
 import data.repositories.*;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,6 +24,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CourseParticipantTest {
+
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();
 
     @Mock
     ICourseRepository courseRepository = new CourseRepository();
@@ -49,8 +54,40 @@ public class CourseParticipantTest {
     }
 
     @Test
-    public void subscribeExistingParticipantReturnsError(){
+    public void subscribeWithInvalidCourseIdReturnsError() throws Exception {
+        Subscription subscription = TestBuilders.getSubscription().build();
 
+        when(courseRepository.getById(anyInt())).thenReturn(null);
+        when(courseParticipantRepository.getById(anyInt())).thenReturn(TestBuilders.getSingleCourseParticipant().build());
+
+        thrown.expectMessage("Course does not exist");
+
+        subscriptionController.createSubscription(subscription);
     }
 
+    @Test
+    public void subscribeWithInvalidParticipantIdReturnsError() throws Exception {
+        Subscription subscription = TestBuilders.getSubscription().build();
+
+        when(courseRepository.getById(anyInt())).thenReturn(TestBuilders.getCourse().build());
+        when(courseParticipantRepository.getById(anyInt())).thenReturn(null);
+
+        thrown.expectMessage("Participant does not exist");
+
+        subscriptionController.createSubscription(subscription);
+    }
+
+
+    @Test
+    public void subscribeWithDuplicateSubscriptionReturnsError() throws Exception {
+        Subscription subscription = TestBuilders.getSubscription().build();
+
+        when(courseRepository.getById(anyInt())).thenReturn(TestBuilders.getCourse().build());
+        when(courseParticipantRepository.getById(anyInt())).thenReturn(TestBuilders.getSingleCourseParticipant().build());
+        when(subscriptionRepository.create(subscription)).thenThrow(new SQLException());
+
+        thrown.expectMessage("Participant is already subscribed for this course");
+
+        subscriptionController.createSubscription(subscription);
+    }
 }

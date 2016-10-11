@@ -185,4 +185,5 @@ public class CourseTest {
         ArrayList<Course> courses = CourseReader.stringToCourses(text);
         courseController.createCourse(courses.get(0));
     }
+
 }

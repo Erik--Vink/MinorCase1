@@ -4,7 +4,6 @@ import data.domain.Course;
 import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -18,14 +17,14 @@ public class CourseRepository implements ICourseRepository {
             Connection connection = new DatabaseConnection().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM COURSES");
-            ArrayList<Course> products = new ArrayList<>();
+            ArrayList<Course> courses = new ArrayList<>();
 
             while (resultSet.next()) {
-                products.add(resultSetToCourse(resultSet));
+                courses.add(resultSetToCourse(resultSet));
             }
             resultSet.close();
             connection.close();
-            return products;
+            return courses;
         } catch (SQLException e) {
             e.printStackTrace();
         }

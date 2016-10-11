@@ -89,9 +89,8 @@ public class CourseTest {
         Course course2 = TestBuilders.getCourse().title("C# Programmeren").code("CNETIN").startDate(LocalDate.parse("2013-10-21")).duration(5).build();
         Course course3 = TestBuilders.getCourse().title("Advanced C#").code("ADCSB").startDate(LocalDate.parse("2013-10-21")).duration(2).build();
         Course course4 = TestBuilders.getCourse().title("Advanced C#").code("ADCSB").startDate(LocalDate.parse("2013-10-14")).duration(2).build();
-        Course course5 = TestBuilders.getCourse().title("C# Programmeren").code("CNETIN").startDate(LocalDate.parse("2013-10-14")).duration(5).build();
 
-        assertThat(courses, containsInAnyOrder(course1, course2, course3, course4, course5));
+        assertThat(courses, containsInAnyOrder(course1, course2, course3, course4));
     }
 
     @Test
@@ -137,5 +136,53 @@ public class CourseTest {
         thrown.expectMessage("Invalid order format");
 
         CourseReader.stringToCourses(text);
+    }
+
+    @Test
+    public void importCourseFileWithExactMatchingDateOnExistingCourseReturnsError() throws IOException {
+        String text = Files.toString(new File("src/test/resources/duplicateCourse.txt"), Charsets.UTF_8);
+
+        thrown.expectMessage("already exist on the given dates");
+
+        ArrayList<Course> dummyCourses = new ArrayList<>();
+        Course existingCourse = TestBuilders.getCourse().title("Advanced C#").code("ADCSB").startDate(LocalDate.parse("2013-10-14")).duration(2).build();
+        dummyCourses.add(existingCourse);
+        DummyCourseRepository.getInstance().setCourses(dummyCourses);
+
+        CourseController courseController = new CourseController(DummyCourseRepository.getInstance());
+        ArrayList<Course> courses = CourseReader.stringToCourses(text);
+        courseController.createCourse(courses.get(0));
+    }
+
+    @Test
+    public void importCourseFileWithBeforeMatchingDateOnExistingCourseReturnsError() throws IOException {
+        String text = Files.toString(new File("src/test/resources/duplicateCourse.txt"), Charsets.UTF_8);
+
+        thrown.expectMessage("already exist on the given dates");
+
+        ArrayList<Course> dummyCourses = new ArrayList<>();
+        Course existingCourse = TestBuilders.getCourse().title("Advanced C#").code("ADCSB").startDate(LocalDate.parse("2013-10-13")).duration(2).build();
+        dummyCourses.add(existingCourse);
+        DummyCourseRepository.getInstance().setCourses(dummyCourses);
+
+        CourseController courseController = new CourseController(DummyCourseRepository.getInstance());
+        ArrayList<Course> courses = CourseReader.stringToCourses(text);
+        courseController.createCourse(courses.get(0));
+    }
+
+    @Test
+    public void importCourseFileWithAfterMatchingDateOnExistingCourseReturnsError() throws IOException {
+        String text = Files.toString(new File("src/test/resources/duplicateCourse.txt"), Charsets.UTF_8);
+
+        thrown.expectMessage("already exist on the given dates");
+
+        ArrayList<Course> dummyCourses = new ArrayList<>();
+        Course existingCourse = TestBuilders.getCourse().title("Advanced C#").code("ADCSB").startDate(LocalDate.parse("2013-10-15")).duration(2).build();
+        dummyCourses.add(existingCourse);
+        DummyCourseRepository.getInstance().setCourses(dummyCourses);
+
+        CourseController courseController = new CourseController(DummyCourseRepository.getInstance());
+        ArrayList<Course> courses = CourseReader.stringToCourses(text);
+        courseController.createCourse(courses.get(0));
     }
 }

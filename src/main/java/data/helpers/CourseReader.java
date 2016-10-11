@@ -50,11 +50,11 @@ public class CourseReader {
         for(String key : map.keySet()){
             switch(key){
                 case "Cursuscode":
-                    checkOrderPosition(key, currentPosition);
+                    validateOrderPosition(key, currentPosition);
                     course.setCode(map.get(key).trim());
                     break;
                 case "Startdatum":
-                    checkOrderPosition(key, currentPosition);
+                    validateOrderPosition(key, currentPosition);
                     String date = map.get(key).trim();
                     String datePattern = "[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}";
                     Pattern r = Pattern.compile(datePattern);
@@ -68,11 +68,11 @@ public class CourseReader {
                     }
                     break;
                 case "Titel":
-                    checkOrderPosition(key, currentPosition);
+                    validateOrderPosition(key, currentPosition);
                     course.setTitle(map.get(key).trim());
                     break;
                 case "Duur":
-                    checkOrderPosition(key, currentPosition);
+                    validateOrderPosition(key, currentPosition);
                     String durationString = map.get(key).trim();
                     String durationPattern = "[0-9]{1,2} dagen";
                     Pattern dp = Pattern.compile(durationPattern);
@@ -92,7 +92,7 @@ public class CourseReader {
         return course;
     }
 
-    private static void checkOrderPosition(String key, int position) throws InvalidPropertiesFormatException {
+    private static void validateOrderPosition(String key, int position) throws InvalidPropertiesFormatException {
         String errorMessage = "Invalid order format";
         switch (key){
             case "Titel":

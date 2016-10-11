@@ -2,12 +2,13 @@ package service;
 
 import data.controllers.CourseController;
 import data.domain.Course;
+import data.helpers.CourseReader;
 import data.repositories.CourseRepository;
-import data.repositories.DatabaseConnection;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 
 @Path("/courses")
 public class CourseResource {
@@ -28,18 +29,27 @@ public class CourseResource {
 
     @GET @Path("/{id}") @Produces(MediaType.APPLICATION_JSON)
     public Course getOne(@PathParam("id") int id){
-        Course course = this.courseController.getCourseById(id);
-        return course;
+        return this.courseController.getCourseById(id);
     }
 
     @POST
     @Consumes("text/plain")
     public Response create(String file){
 
-        String filedata = file;
+        try {
+            ArrayList<Course> courses = CourseReader.stringToCourses(file);
+            for(Course c : courses){
+                try {
+                    courseController.createCourse(c);
+                }
+                catch (IllegalArgumentException e){
+                    return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.APPLICATION_JSON).build();
+                }
+            }
+        } catch (InvalidPropertiesFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).type("text/plain").build();
+        }
 
-//        int id = this.courseController.createCourse(course);
-//
         UriBuilder builder = UriBuilder.fromUri(uriInfo.getAbsolutePath());
 //        builder.path(Integer.toString(id));
         return Response.created(builder.build()).build();

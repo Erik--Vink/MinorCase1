@@ -1,7 +1,6 @@
 package data.repositories;
 
 import data.domain.Course;
-import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class CourseRepository implements ICourseRepository {
             preparedStatement.setString(2, course.getCode());
             preparedStatement.setDate(3, Date.valueOf(course.getStartDate()));
             preparedStatement.setInt(4, course.getDuration());
-            preparedStatement.registerOutParameter(5, OracleTypes.NUMBER);
+            preparedStatement.registerOutParameter(5, Types.INTEGER);
             preparedStatement.execute();
 
             return preparedStatement.getInt(5);

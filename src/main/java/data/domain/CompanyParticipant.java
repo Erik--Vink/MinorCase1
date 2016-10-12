@@ -1,5 +1,6 @@
 package data.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -9,14 +10,16 @@ import java.util.ListIterator;
 /**
  * Created by Erik on 11-10-2016.
  */
-@Builder
+
 public class CompanyParticipant extends CourseParticipant{
 
     public CompanyParticipant(){
         this.courseParticipantList = new LinkedList<>();
     }
 
-    public CompanyParticipant(String email, String forename, String surname, String zipcode, String place, String street, String houseNumber, String accountNumber) {
+    @Builder
+    public CompanyParticipant(int id, String email, String forename, String surname, String zipcode, String place, String street, String houseNumber, String accountNumber) {
+        this.id = id;
         this.email = email;
         this.forename = forename;
         this.surname = surname;

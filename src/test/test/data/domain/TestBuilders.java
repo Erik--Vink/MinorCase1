@@ -25,6 +25,18 @@ public class TestBuilders {
                 .accountNumber("NL123");
     }
 
+    public static CompanyParticipant.CompanyParticipantBuilder getCompanyCourseParticipant(){
+        return CompanyParticipant.builder()
+                .forename("Infosupport")
+                .surname("")
+                .email("info@infosupport.com")
+                .zipcode("3905")
+                .place("Veenendaal")
+                .street("Kruisboog")
+                .houseNumber("42")
+                .accountNumber("NL123");
+    }
+
     public static Subscription.SubscriptionBuilder getSubscription(){
         return Subscription.builder().courseId(44).courseParticipantId(7);
     }

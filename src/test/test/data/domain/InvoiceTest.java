@@ -67,4 +67,81 @@ public class InvoiceTest {
 
     }
 
+    @Test
+    public void getAllInvoicesWithCompanySubscriptionReturnsInvoiceWithCompany(){
+        int year = 2016;
+        int weeknumber = 41;
+
+        ArrayList<Course> courses = new ArrayList<>();
+        courses.add(TestBuilders.getCourse().id(1).build());
+
+        ArrayList<CourseParticipant> courseParticipants = new ArrayList<>();
+        courseParticipants.add(TestBuilders.getCompanyCourseParticipant().id(1).build());
+        courseParticipants.add(TestBuilders.getSingleCourseParticipant().parentId(1).id(2).build());
+
+        ArrayList<Subscription> subscriptions = new ArrayList<>();
+        subscriptions.add(Subscription.builder().courseId(1).courseParticipantId(2).build());
+
+        Invoice invoice = Invoice.builder().courseParticipant(courseParticipants.get(0)).courses(courses).build();
+
+        when(courseRepository.getAll()).thenReturn(courses);
+        when(courseRepository.getById(1)).thenReturn(courses.get(0));
+        when(courseParticipantRepository.getAll()).thenReturn(courseParticipants);
+        when(courseParticipantRepository.getById(1)).thenReturn(courseParticipants.get(0));
+        when(courseParticipantRepository.getById(2)).thenReturn(courseParticipants.get(1));
+        when(subscriptionRepository.getAllByCourseId(1)).thenReturn(subscriptions);
+
+        assertThat(invoiceController.getAllInvoices(year, weeknumber), containsInAnyOrder(invoice));
+    }
+
+    @Test
+    public void getAllInvoicesWithNonMatchingYearShouldReturnNoInvoices(){
+
+        int year = 2010;
+        int weeknumber = 41;
+
+        ArrayList<Course> courses = new ArrayList<>();
+        courses.add(TestBuilders.getCourse().id(1).build());
+
+        ArrayList<CourseParticipant> courseParticipants = new ArrayList<>();
+        courseParticipants.add(TestBuilders.getSingleCourseParticipant().id(1).build());
+
+        ArrayList<Subscription> subscriptions = new ArrayList<>();
+        subscriptions.add(Subscription.builder().courseId(1).courseParticipantId(1).build());
+
+        when(courseRepository.getAll()).thenReturn(courses);
+        when(courseRepository.getById(1)).thenReturn(courses.get(0));
+        when(courseParticipantRepository.getAll()).thenReturn(courseParticipants);
+        when(courseParticipantRepository.getById(1)).thenReturn(courseParticipants.get(0));
+        when(subscriptionRepository.getAllByCourseId(1)).thenReturn(subscriptions);
+
+        assertThat(invoiceController.getAllInvoices(year, weeknumber), is(new ArrayList<>()));
+
+    }
+
+    @Test
+    public void getAllInvoicesWithNonMatchingWeeknumberShouldReturnNoInvoices(){
+
+        int year = 2016;
+        int weeknumber = 30;
+
+        ArrayList<Course> courses = new ArrayList<>();
+        courses.add(TestBuilders.getCourse().id(1).build());
+
+        ArrayList<CourseParticipant> courseParticipants = new ArrayList<>();
+        courseParticipants.add(TestBuilders.getSingleCourseParticipant().id(1).build());
+
+        ArrayList<Subscription> subscriptions = new ArrayList<>();
+        subscriptions.add(Subscription.builder().courseId(1).courseParticipantId(1).build());
+
+        when(courseRepository.getAll()).thenReturn(courses);
+        when(courseRepository.getById(1)).thenReturn(courses.get(0));
+        when(courseParticipantRepository.getAll()).thenReturn(courseParticipants);
+        when(courseParticipantRepository.getById(1)).thenReturn(courseParticipants.get(0));
+        when(subscriptionRepository.getAllByCourseId(1)).thenReturn(subscriptions);
+
+        assertThat(invoiceController.getAllInvoices(year, weeknumber), is(new ArrayList<>()));
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package data.domain;
 
+import data.controllers.CourseParticipantController;
 import data.controllers.SubscriptionController;
 import data.repositories.*;
 import org.junit.Rule;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -39,6 +41,22 @@ public class CourseParticipantTest {
 
     @InjectMocks
     SubscriptionController subscriptionController =  new SubscriptionController(subscriptionRepository, courseRepository, courseParticipantRepository);
+
+    @InjectMocks
+    CourseParticipantController courseParticipantController =  new CourseParticipantController(courseParticipantRepository);
+
+    @Test
+    public void getAllSubscriptionsShouldReturnAllSubscriptions() throws Exception {
+
+        ArrayList<CourseParticipant> participants = new ArrayList<>();
+        participants.add(TestBuilders.getSingleCourseParticipant().build());
+
+        when(courseParticipantRepository.getAll()).thenReturn(participants);
+
+        courseParticipantController.getAllCourseParticipants();
+
+        verify(courseParticipantRepository, times(1)).getAll();
+    }
 
     @Test
     public void subscribeWithValidCourseAndParticipant() throws Exception {

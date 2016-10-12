@@ -1,7 +1,6 @@
 package data.repositories;
 
 import data.domain.*;
-import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
 import java.util.ArrayList;

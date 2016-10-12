@@ -9,9 +9,12 @@ import java.util.ListIterator;
 /**
  * Created by Erik on 11-10-2016.
  */
-@NoArgsConstructor
 @Builder
 public class CompanyParticipant extends CourseParticipant{
+
+    public CompanyParticipant(){
+        this.courseParticipantList = new LinkedList<>();
+    }
 
     public CompanyParticipant(String email, String forename, String surname, String zipcode, String place, String street, String houseNumber, String accountNumber) {
         this.email = email;
@@ -28,7 +31,7 @@ public class CompanyParticipant extends CourseParticipant{
 
     @Override
     public boolean add(CourseParticipant courseParticipant) {
-        courseParticipant.setParent(this);
+//        courseParticipant.setParent(this);
         return this.courseParticipantList.add(courseParticipant);
     }
 

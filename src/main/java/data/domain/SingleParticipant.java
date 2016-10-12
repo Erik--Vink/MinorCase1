@@ -13,7 +13,8 @@ import java.util.ListIterator;
 public class SingleParticipant extends CourseParticipant{
 
     @Builder
-    public SingleParticipant(String email, String forename, String surname, String zipcode, String place, String street, String houseNumber, String accountNumber, CourseParticipantType type) {
+    public SingleParticipant(int id, String email, String forename, String surname, String zipcode, String place, String street, String houseNumber, String accountNumber, CourseParticipantType type) {
+        this.id = id;
         this.email = email;
         this.forename = forename;
         this.surname = surname;

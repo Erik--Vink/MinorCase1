@@ -11,5 +11,6 @@ import java.util.ArrayList;
 public interface ICourseParticipantRepository {
     ArrayList<CourseParticipant> getAll();
     CourseParticipant getById(int id);
+    ArrayList<CourseParticipant> getAllByParentId(int id);
     int create(CourseParticipant courseParticipant);
 }

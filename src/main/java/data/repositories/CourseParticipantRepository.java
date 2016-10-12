@@ -58,6 +58,27 @@ public class CourseParticipantRepository implements ICourseParticipantRepository
     }
 
     @Override
+    public ArrayList<CourseParticipant> getAllByParentId(int id) {
+        try {
+            Connection connection = new DatabaseConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM COURSEPARTICIPANTS WHERE PARENT = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<CourseParticipant> courseParticipants = new ArrayList<>();
+
+            while (resultSet.next()) {
+                courseParticipants.add(this.courseParticipantFactory.resultSetToCourseParticipant(resultSet));
+            }
+            resultSet.close();
+            connection.close();
+            return courseParticipants;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public int create(CourseParticipant courseParticipant) {
         return 0;
     }

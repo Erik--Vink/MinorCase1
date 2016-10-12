@@ -11,4 +11,5 @@ import java.util.ArrayList;
  */
 public interface ISubscriptionRepository {
     boolean create(Subscription subscription) throws SQLException;
+    ArrayList<Subscription> getAllByCourseId(int id);
 }

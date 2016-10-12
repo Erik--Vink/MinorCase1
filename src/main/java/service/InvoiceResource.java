@@ -1,8 +1,6 @@
 package service;
 
 import data.controllers.InvoiceController;
-import data.controllers.SubscriptionController;
-import data.domain.Course;
 import data.domain.Invoice;
 import data.repositories.CourseParticipantRepository;
 import data.repositories.CourseRepository;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Erik on 12-10-2016.
  */
-@Path("/subscriptions")
+@Path("/invoices")
 public class InvoiceResource {
 
     @Context
@@ -29,7 +27,7 @@ public class InvoiceResource {
     private InvoiceController invoiceController;
 
     public InvoiceResource(){
-        this.invoiceController = new InvoiceController();
+        this.invoiceController = new InvoiceController(new CourseParticipantRepository(), new CourseRepository(), new SubscriptionRepository());
     }
 
     @GET

@@ -90,7 +90,7 @@ public class InvoiceController {
     }
 
     private int getWeeknumberFromLocalDate(LocalDate date){
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        WeekFields weekFields = WeekFields.of(Locale.GERMANY);
         return date.get(weekFields.weekOfWeekBasedYear());
     }
 
